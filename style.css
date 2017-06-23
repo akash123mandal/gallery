@@ -40,7 +40,7 @@ body{
 	display: table-cell;
 }
 
-.nav-h img{
+.nav-h img, .nav-v img{
 	width: 40px;
 }
 
@@ -48,8 +48,8 @@ body{
 	display: block;
 }
 
-.nav-v img{
-	width: 40px;
+.nav-v:hover, .nav-h:hover, #current:hover{
+	cursor: pointer;
 }
 
 #cube{

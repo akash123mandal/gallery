@@ -117,7 +117,7 @@
  					if(newid == 'left' || newid == 'right')
  						navh($("#"+newid), update);
  					else
- 						navv(update);
+ 						navv($("#"+newid), update);
  					setcap(currpic.cat, currpic.pic);
  					$("#current").on('click', openpic);
  				}
@@ -129,11 +129,11 @@
  					set(newelem, currpic.cat, currpic.pic + update);
  				}
 
- 				function navv (update) {
+ 				function navv (newelem, update) {
  					currpic.cat+=update;
  					currpic.pic = 0;
  					set($("#left"), currpic.cat, currpic.pic - 1);
- 					set($("#down"), currpic.cat + update, currpic.pic);
+ 					set(newelem, currpic.cat + update, currpic.pic);
  					set($("#right"), currpic.cat, currpic.pic + 1);
  					showcat(currpic.cat);
  				}

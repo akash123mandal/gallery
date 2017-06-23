@@ -1,0 +1,134 @@
+@import url('https://fonts.googleapis.com/css?family=Crushed|Patrick+Hand+SC|Indie+Flower');
+
+body{
+	margin: 0;
+	text-align: center;
+	background-color: black;
+}
+
+#container{
+	display: inline-block;
+	margin: 10px 0;
+}
+
+#header{
+	display: block;
+}
+
+#title{
+	color: white;
+	display: inline-block;
+	font-family: 'Crushed', cursive;
+	font-size: 60px;
+	letter-spacing: 4px;
+}
+
+#title img{
+	margin: 0 4px -5px 4px;
+	width: 50px;
+}
+
+#main{
+	margin-top: 30px;
+}
+
+#cube-nav-h{
+	display: table;
+}
+
+.nav-h{
+	display: table-cell;
+}
+
+.nav-h img{
+	width: 40px;
+}
+
+.nav-v{
+	display: block;
+}
+
+.nav-v img{
+	width: 40px;
+}
+
+#cube{
+	display: inline-block;
+	width: 450px;
+	height: 450px;
+	vertical-align: middle;
+	perspective: 1200px; 
+}
+
+.pic{
+	position: absolute;
+	top: 0;
+	left: 0;
+	transition-duration: 1.2s;
+	transform-origin: 225px 225px -225px;
+	z-index: +1;
+}
+
+#current{
+	z-index: +2;
+}
+
+#catlabel{
+	display: none;
+	position: absolute;
+	top: 0;
+	width: 456px;
+	background-color: rgba(0, 0, 0, 0.5);
+	color: white;
+	text-align: center;
+	font-family: 'Patrick Hand SC', cursive;
+	font-size: 25px;
+	padding: 5px 0;
+	letter-spacing: 3px;
+	z-index: +3;
+}
+
+.pic img{
+	width: 450px;
+	height: 450px;
+	border: solid white 3px;
+}
+
+.surr{
+	opacity: 0;
+}
+
+#current{
+	transform: rotateX(0deg);
+	transform: rotateY(0deg);
+	opacity: 1;
+}
+
+#left{
+	transform: rotateY(-90deg);
+}
+
+#right{
+	transform: rotateY(90deg);
+}
+
+#up{
+	transform: rotateX(90deg);
+}
+
+#down{
+	transform: rotateX(-90deg);
+}
+
+#caption{
+	display: none;
+	margin: auto;
+	height: 68px;
+	margin-bottom: -25px;
+	line-height: 27px;
+	font-size: 30px;
+	color: white;
+	width: 456px;
+	display: block;
+	font-family: 'Indie Flower', cursive;
+}

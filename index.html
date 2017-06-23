@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<title>Wild Cube</title>
+
+		<link rel="stylesheet" href="style.css">
+
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>	
+		<script type="text/javascript">
+			$(document).ready(function () {
+				var animal = {category:"animal", 
+							eg:[["cheetah","Catch me if you can!"], 
+							["dog", "Could I BE any cuter?"], 
+							["kitten", "My home stinks."], 
+							["lion", "I an the kin...yaaawn"], 
+							["monkey", "Happy family."], 
+							["panda", "Hi there!"], 
+							["tiger-cub", "Do my stripes look good?"]]
+							};
+				var bird = {category:"bird", 
+							eg:[["chicks", "Mommy doesn't love us :'("], 
+							["eagle", "You say I'm bald. Which bird <i>has</i> hair?"], 
+							["humming", "Hmmmmm...hmmmm...oh that's just me humming."], 
+							["owl", "I'm coming to teach you a lesson."], 
+							["parrot", "Pop goes the weasel"], 
+							["peacock", "No, no, I'm not a girl! Don't call me PRETTY!"], 
+							["toucan", "I have a thick, monstrous, 8-inch long... beak."]]
+							};
+				var insect = {category:"insect", 
+							eg:[["bee", "Hey, I'm busy as always!"], 
+							["butterfly", '"I'+"'"+'m prettier!<br>"No! I am!"'], 
+							["caterpillar", "Could I lend you a hand? No, but a leg perhaps..."], 
+							["grasshopper", "Yohoo! I hop on grass!"], 
+							["ladybug", "Don't go by appearances. I bite!"], 
+							["snail", "Who are you and what are you doing down there?"]]
+							};
+				var fish = {category:"fish", 
+							eg:[["fish", "Go away! I'm not going back to the aquarium"], 
+							["octopus", "I could lend you a hand, brother"], 
+							["seahorse", "I'm not a <i>horse</i>."], 
+							["shark", "Can I star in JAWS 2?"], 
+							["stingray", "No! I'm not a hat. I sting!"], 
+							["tortoise", "I carry my home with me!"]]
+							};
+
+				var cat = [animal, bird, insect, fish];
+				var catnames = ["Animals", "Birds", "Insects", "Sea Creatures"];
+				var currpic = {cat:0, pic:0};
+
+				(function () {
+					var divid = ["up", "down", "left", "right", "current"];
+					var cube = "";
+
+					for (var x in divid) {
+ 						cube += "<div id ='" + divid[x] + "' class='surr pic'></div>";
+ 					}
+
+ 					$("#cube").html(cube);
+
+ 					var up = $("#up"), down = $("#down"), right = $("#right"), left = $("#left"), curr = $("#current");
+
+ 					curr.removeClass("surr");
+
+ 					set(curr, 0, 0);
+ 					set(up, 3, 0);
+ 					set(down, 1, 0);
+ 					set(left, 0, cat[0].eg.length - 1);
+ 					set(right, 0, 1);
+
+ 					showcat(0);
+
+ 					setcap(0, 0);
+ 				})();
+
+ 				function catfilter(categ){
+ 					categ %= 4;
+ 					categ = categ < 0 ? 4 + categ : categ;
+ 					return categ;
+ 				}
+
+				function picfilter(categ, pic){
+ 					var len = cat[categ].eg.length;
+ 					pic %= len;
+ 					pic = pic < 0 ? len + pic : pic;
+ 					console.log(categ, pic);
+ 					return pic;
+ 				} 				
+
+ 				function showcat (categ) {
+ 					$("#catlabel").remove();
+ 					categ = catfilter(categ);
+ 					var catlabel = "<div id='catlabel'>" + catnames[categ] + " of the Wild </div>";
+ 					$("#cube").append(catlabel);
+ 					$("#catlabel").fadeIn(500);				 
+ 				}
+
+ 				function set (elem, categ, pic) {
+ 					categ = catfilter(categ); pic = picfilter(categ, pic);
+ 					elem.html('<img src="images/' + cat[categ].category + "/" + cat[categ].eg[pic][0] + '.jpg">'); 
+ 				}
+
+ 				function setcap (categ, pic) {
+ 					console.log("hi");
+ 					categ = catfilter(categ); pic = picfilter(categ, pic);
+ 					$("#caption").html('"'+cat[categ].eg[pic][1]+'"');
+ 				}
+
+ 				function nav (remelem, remid, newelem, newid, update) {
+ 					remelem.remove();
+ 					$("#current").addClass("surr").attr('id', remid);
+ 					newelem.removeClass('surr').attr('id', 'current');
+ 					var cube = "<div id ='" + newid + "' class='surr pic'></div>";
+ 					$("#cube").append(cube);
+ 					if(newid == 'left' || newid == 'right')
+ 						navh($("#"+newid), update);
+ 					else
+ 						navv(update);
+ 					setcap(currpic.cat, currpic.pic);
+ 					$("#current").on('click', openpic);
+ 				}
+
+ 				$("#current").on('click', openpic);
+
+ 				function navh (newelem, update) { 					
+ 					currpic.pic+=update;
+ 					set(newelem, currpic.cat, currpic.pic + update);
+ 				}
+
+ 				function navv (update) {
+ 					currpic.cat+=update;
+ 					currpic.pic = 0;
+ 					set($("#left"), currpic.cat, currpic.pic - 1);
+ 					set($("#down"), currpic.cat + update, currpic.pic);
+ 					set($("#right"), currpic.cat, currpic.pic + 1);
+ 					showcat(currpic.cat);
+ 				}
+
+ 				$("#nav-l").click(function() {
+ 					nav($("#left"), 'left', $("#right"), 'right', 1);
+ 				});
+
+ 				$("#nav-r").click(function() {
+ 					nav($("#right"), 'right', $("#left"), 'left', -1);
+ 				});
+
+ 				$("#nav-u").click(function() {
+ 					nav($("#up"), 'up', $("#down"), 'down', 1);
+ 				});
+
+ 				$("#nav-d").click(function() {
+ 					nav($("#down"), 'down', $("#up"), 'up', -1);
+ 				});	
+
+ 				function openpic() {
+ 					var src = $("#current img").attr("src");
+ 					src = src.replace("images", "images_orig");
+					window.open(src);	
+ 				}
+			});
+		</script>
+	</head>
+	<body>
+		<div id="container">
+			<header id="header">
+				<div id="title">The Wi<img src="images/u_w.png" alt="u" >d Cube</div>
+			</header>
+			<div id="main">
+				<div id="caption">
+				</div>
+				<div id="cube-cont">
+					<div class="nav-v" id="nav-u">
+						<img src="images/up.gif">
+					</div>
+					<div id="cube-nav-h">
+						<div class="nav-h" id="nav-l">
+							<img src="images/prev.gif">
+						</div><!--
+					 --><div id="cube"><div id='catlabel'></div></div><!--
+					 --><div class="nav-h" id="nav-r">
+							<img src="images/next.gif">
+						</div>
+					</div>
+					<div class="nav-v" id="nav-d">
+						<img src="images/down.gif">
+					</div>
+				</div>				
+			</div>
+		</div>
+	</body>
+</html>
